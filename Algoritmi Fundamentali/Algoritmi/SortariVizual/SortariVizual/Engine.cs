@@ -20,9 +20,7 @@ namespace SortariVizual
 
         public static void Swap(int i, int j)
         {
-            Colour c = Resources.rainbow[i];
-            Resources.rainbow[i] = Resources.rainbow[j];
-            Resources.rainbow[j] = c;
+            (Resources.rainbow[i], Resources.rainbow[j]) = (Resources.rainbow[j], Resources.rainbow[i]);
             UpdatePositionsVisually(i, j);
         }
 
@@ -47,14 +45,54 @@ namespace SortariVizual
 
         public static void Bubble()
         {
+            bool hasSwapped;
+            do
+            {
+                hasSwapped = false;
+                for (int i = 0; i < Resources.n - 1; i++)
+                {
+                    if (Resources.rainbow[i].value > Resources.rainbow[i + 1].value)
+                    {
+                        hasSwapped = true;
+                        Swap(i, i + 1);
+                    }
+                }
+            } while (hasSwapped);
         }
 
         public static void Insertion()
         {
+            for (int i = 1; i < Resources.n; i++)
+            {
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (Resources.rainbow[j].value > Resources.rainbow[j + 1].value)
+                    {
+                        Swap(j, j + 1);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         public static void Selection()
         {
+            for (int i = 0; i < Resources.n; i++)
+            {
+                int min = i;
+                for (int j = i; j < Resources.n; j++)
+                {
+                    if (Resources.rainbow[j].value < Resources.rainbow[min].value)
+                    {
+                        min = j;
+                    }
+                    UpdatePositionsVisually(i, j);
+                }
+                Swap(i, min);
+            }
         }
 
         public static void QuickSort(int left, int right)

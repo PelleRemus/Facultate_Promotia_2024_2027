@@ -96,7 +96,6 @@ namespace Jocul_2048
                     display[i, j].Value = 0;
                 }
             }
-            display[0, 0].Value = 32;
         }
     }
 }
