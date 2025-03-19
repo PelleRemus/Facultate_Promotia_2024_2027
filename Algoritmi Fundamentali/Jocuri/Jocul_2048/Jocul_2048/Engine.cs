@@ -186,6 +186,8 @@ namespace Jocul_2048
                     Form1.Instance.Close();
                 }
             }
+            // pentru castig, verificam daca exista o casuta de 2048 sau mai mult
+            // putem face functionalitate de freeplay daca apasa jucatorul "OK"
         }
 
         public static bool MoveOneRow(Tile[] tiles)
