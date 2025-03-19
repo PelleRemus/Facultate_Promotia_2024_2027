@@ -36,7 +36,7 @@ namespace Jocul_2048
             Picturebox = new PictureBox();
             Picturebox.Parent = Form1.Instance.panel1;
             Picturebox.Size = new Size(Size, Size);
-            Picturebox.BackColor = Color.Brown;
+            Picturebox.BackColor = Color.FromArgb(195, 188, 176);
 
             int x = Offset / 2 + (Size + Offset) * j;
             int y = Offset / 2 + (Size + Offset) * i;

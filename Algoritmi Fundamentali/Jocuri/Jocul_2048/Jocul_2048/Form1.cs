@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Jocul_2048
@@ -25,6 +24,11 @@ namespace Jocul_2048
             Engine.GenerateNewTile();
             Engine.GenerateNewTile();
             Engine.DisplayValues();
+        }
+
+        private void button1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Engine.Move(e.KeyCode);
         }
     }
 }
