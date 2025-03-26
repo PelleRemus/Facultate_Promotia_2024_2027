@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Net.Configuration;
 using System.Windows.Forms;
 
 namespace FiltreImagini
@@ -44,8 +43,8 @@ namespace FiltreImagini
                 {
                     Color pixel = image.GetPixel(i, j);
                     int media = (pixel.R + pixel.G + pixel.B) / 3;
-                    // valoarea maima a culorilor este 255, deci daca media culorii
-                    // este mai mica decat 128, atunci culoarea este "inchisa"
+                    // valoarea maxima a culorilor este 255, deci daca media culorii
+                    // este mai mica decat 128, atunci este o culoare "inchisa"
                     if (media < 128)
                     {
                         // culorile nu pot avea valori negative (sau peste 255)
