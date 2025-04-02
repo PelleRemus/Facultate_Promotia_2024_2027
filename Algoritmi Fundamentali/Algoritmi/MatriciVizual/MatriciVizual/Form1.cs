@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MatriciVizual
@@ -45,6 +39,13 @@ namespace MatriciVizual
                 button.Click += ColorButton_Click;
                 colorButtons[i] = button;
             }
+
+            Random random = new Random();
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 10; j++)
+                {
+                    matrixRotation[i, j] = random.Next(colors.Length);
+                }
         }
 
         private void ColorButton_Click(object sender, EventArgs e)
@@ -107,20 +108,179 @@ namespace MatriciVizual
             }
         }
 
+        // Mijloace
         private void button2_Click(object sender, EventArgs e)
         {
+            int n = 9;
+            int[,] matrix = new int[n, n];
+
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i, n / 2] = 1;
+                matrix[n / 2, i] = 1;
+            }
+
+            AddMatrixToTextBox(matrix, n, n);
         }
 
+        // Diagonale
         private void button3_Click(object sender, EventArgs e)
         {
+            int n = 9;
+            int[,] matrix = new int[n, n];
+
+            for (int i = 0; i < n; i++)
+            {
+                matrix[i, i] = 1;
+                matrix[i, n - i - 1] = 1;
+            }
+
+            AddMatrixToTextBox(matrix, n, n);
         }
 
+        // Spirala
         private void button4_Click(object sender, EventArgs e)
         {
+            int n = 19, counter = 0;
+            int[,] matrix = new int[n, n];
+
+            for (int k = 0; k < n / 2; k++)
+            {
+                for (int i = k; i < n - k - 1; i++)
+                    matrix[k, i] = counter;// sau k + 1;
+                counter++;
+                for (int i = k; i < n - k - 1; i++)
+                    matrix[i, n - k - 1] = counter;// sau k + 1;
+                counter++;
+                for (int i = k; i < n - k - 1; i++)
+                    matrix[n - k - 1, n - i - 1] = counter;// sau k + 1;
+                counter++;
+                for (int i = k; i < n - k - 1; i++)
+                    matrix[n - i - 1, k] = counter;// sau k + 1;
+                counter++;
+            }
+
+            AddMatrixToTextBox(matrix, n, n);
         }
 
+        // NSEV
         private void button5_Click(object sender, EventArgs e)
         {
+            int n = 9;
+            int[,] matrix = new int[n, n];
+
+            for (int i = 0; i < n / 2; i++)
+                for (int j = i + 1; j < n - i - 1; j++)
+                {
+                    matrix[i, j] = 7;
+                    matrix[j, n - i - 1] = 1;
+                    matrix[n - i - 1, j] = 8;
+                    matrix[j, i] = 2;
+                }
+
+            AddMatrixToTextBox(matrix, n, n);
+        }
+
+        // Mijloace si diagonale
+        private void button6_Click(object sender, EventArgs e)
+        {
+            int n = 9;
+            int[,] matrix = new int[n, n];
+
+            for (int i = 0; i < n; i++)
+            {
+                matrix[n / 2, i] = 1;
+                matrix[i, n / 2] = 1;
+                matrix[i, i] = 1;
+                matrix[i, n - i - 1] = 1;
+            }
+
+            AddMatrixToTextBox(matrix, n, n);
+        }
+
+        // Spirala
+        private void button7_Click(object sender, EventArgs e)
+        {
+            int value = 0;
+            int n = 13;
+            int[,] matrix = new int[n, n];
+            bool upDirection = true;
+
+            for (int diagonalSize = 1; diagonalSize <= n; diagonalSize++)
+            {
+                if (upDirection)
+                    TraverseUpwards(matrix, diagonalSize, value);
+                else
+                    TraverseDownwards(matrix, diagonalSize, value);
+
+                value++;
+                upDirection = !upDirection;
+            }
+
+            for (int diagonalSize = n - 1; diagonalSize > 0; diagonalSize--)
+            {
+                if (upDirection)
+                    TraverseUpwards(matrix, diagonalSize, value, true);
+                else
+                    TraverseDownwards(matrix, diagonalSize, value, true);
+
+                value++;
+                upDirection = !upDirection;
+            }
+
+            AddMatrixToTextBox(matrix, n, n);
+        }
+        private void TraverseUpwards(int[,] matrix, int diagonalSize, int value, bool isSecondHalf = false)
+        {
+            int i = diagonalSize - 1;
+            int j = 0;
+            if (isSecondHalf)
+            {
+                i = matrix.GetLength(0) - 1;
+                j = matrix.GetLength(1) - diagonalSize;
+            }
+
+            while (diagonalSize > 0)
+            {
+                matrix[i, j] = value;
+                i--; j++;
+                diagonalSize--;
+            }
+        }
+        private void TraverseDownwards(int[,] matrix, int diagonalSize, int value, bool isSecondHalf = false)
+        {
+            int i = 0;
+            int j = diagonalSize - 1;
+            if (isSecondHalf)
+            {
+                i = matrix.GetLength(0) - diagonalSize;
+                j = matrix.GetLength(1) - 1;
+            }
+
+            while (diagonalSize > 0)
+            {
+                matrix[i, j] = value;
+                i++; j--;
+                diagonalSize--;
+            }
+        }
+
+        // Rotire 90 grade
+        int[,] matrixRotation = new int[5, 10];
+        private void button8_Click(object sender, EventArgs e)
+        {
+            int n = matrixRotation.GetLength(0);
+            int m = matrixRotation.GetLength(1);
+            int[,] matrix = new int[m, n];
+
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                {
+                    matrix[m - j - 1, i] = matrixRotation[i, j];
+                }
+
+            matrixRotation = matrix;
+            AddMatrixToTextBox(matrix, m, n);
         }
     }
 }
