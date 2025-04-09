@@ -198,7 +198,7 @@ namespace MatriciVizual
             AddMatrixToTextBox(matrix, n, n);
         }
 
-        // Spirala
+        // Serpuit
         private void button7_Click(object sender, EventArgs e)
         {
             int value = 0;
