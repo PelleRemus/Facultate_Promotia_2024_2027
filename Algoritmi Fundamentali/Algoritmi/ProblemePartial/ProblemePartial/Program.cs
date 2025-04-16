@@ -20,7 +20,7 @@ public class Program
 
         //Console.WriteLine("E = ∑i^i ,i∈[1,255] = " + Ex4Eg1());
 
-        int[,] matrix =
+        /*int[,] matrix =
         {
             { 1, 2, 0, 4, 5 },
             { 6, 0, 0, 9, 0 },
@@ -28,7 +28,11 @@ public class Program
             { 6, 0, 0, 9, 0 },
             { 1, 2, 0, 4, 5 },
         };
-        Ex2Eg19(matrix, 5, 5);
+        Ex2Eg19(matrix, 5, 5);*/
+
+        //RezorvarePartial.R2Ex1("../../../TextFile1.txt");
+
+        Console.WriteLine(RezorvarePartial.R1_2Ex4("../../../TextFile2.txt"));
     }
 
     /* IV. 6. Să se construiască un algoritm care pentru un vector dat efectuează repetitiv următoarea transformare:
