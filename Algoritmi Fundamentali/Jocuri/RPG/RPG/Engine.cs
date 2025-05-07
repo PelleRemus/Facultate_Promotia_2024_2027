@@ -18,9 +18,9 @@ namespace RPG
 
         public static void Initialize()
         {
-            player = new Character(new Point(200, 200), 80, "../../Images/spongebob.png", 15);
-            pineapple = new MapObject(new Point(100, 400), 200, 400,
-                "../../Images/pineapple.png", new Point(100, 700), 200, 100);
+            player = new Character(new PointF(200, 200), 80, "../../Images/spongebob.png", 8);
+            pineapple = new MapObject(new Point(100, 400), 200, 400, "../../Images/pineapple.png",
+                "../../Images/pineapple_transparent.png", new Point(100, 700), 200, 100);
         }
 
         public static void Draw()
@@ -32,12 +32,20 @@ namespace RPG
             graphics.DrawImage(player.Image, player.Location.X, player.Location.Y,
                 player.Size, player.Size);
 
-            graphics.DrawImage(pineapple.Image, pineapple.Location.X, pineapple.Location.Y,
-                pineapple.Width, pineapple.Height);
-            graphics.FillRectangle(new SolidBrush(Color.Red), pineapple.BlockLocation.X,
-                pineapple.BlockLocation.Y, pineapple.BlockWidth, pineapple.BlockHeight);
+            pineapple.Draw(graphics);
 
             Form1.Instance.pictureBox1.Image = bitmap;
+        }
+
+        public static bool HasCharacterBehind(MapObject mapObject)
+        {
+            if (new Rectangle(mapObject.Location, new Size(mapObject.Width, mapObject.Height))
+                .IntersectsWith(new Rectangle(
+                    new Point((int)player.Location.X, (int)player.Location.Y),
+                    new Size(player.Size, player.Size))
+                ))
+                return true;
+            return false;
         }
     }
 }

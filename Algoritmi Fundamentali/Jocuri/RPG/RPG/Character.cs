@@ -1,16 +1,22 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace RPG
 {
     public class Character
     {
-        public Point Location { get; set; }
+        public PointF Location { get; set; }
         public int Size { get; set; }
         public Image Image { get; set; }
-        public int Speed { get; set; }
+        public float Speed { get; set; }
 
-        public Character(Point location, int size, string pathToImage, int speed)
+        public bool MovesLeft { get; set; }
+        public bool MovesRight { get; set; }
+        public bool MovesUp { get; set; }
+        public bool MovesDown { get; set; }
+
+        public Character(PointF location, int size, string pathToImage, int speed)
         {
             Location = location;
             Size = size;
@@ -18,36 +24,67 @@ namespace RPG
             Speed = speed;
         }
 
-        public void Move(Keys keyPressed)
+        public void ChangeMovement(Keys keyPressed, bool value)
         {
             if (keyPressed == Keys.A || keyPressed == Keys.Left)
             {
-                if (Location.X < Speed)
-                    Location = new Point(0, Location.Y);
-                else
-                    Location = new Point(Location.X - Speed, Location.Y);
+                MovesLeft = value;
             }
             if (keyPressed == Keys.D || keyPressed == Keys.Right)
             {
-                if (Location.X > Form1.Instance.pictureBox1.Width - Size - Speed)
-                    Location = new Point(Form1.Instance.pictureBox1.Width - Size, Location.Y);
-                else
-                    Location = new Point(Location.X + Speed, Location.Y);
+                MovesRight = value;
             }
             if (keyPressed == Keys.W || keyPressed == Keys.Up)
             {
-                if (Location.Y < Speed)
-                    Location = new Point(Location.X, 0);
-                else
-                    Location = new Point(Location.X, Location.Y - Speed);
+                MovesUp = value;
             }
             if (keyPressed == Keys.S || keyPressed == Keys.Down)
             {
-                if (Location.Y > Form1.Instance.pictureBox1.Height - Size - Speed)
-                    Location = new Point(Location.X, Form1.Instance.pictureBox1.Height - Size);
-                else
-                    Location = new Point(Location.X, Location.Y + Speed);
+                MovesDown = value;
             }
+        }
+
+        public void Move()
+        {
+            float speedX = 0, speedY = 0;
+
+            if (MovesLeft)
+                speedX -= Speed;
+            if (MovesRight)
+                speedX += Speed;
+            if (MovesUp)
+            {
+                if (speedX != 0)
+                {
+                    speedX = speedX / (float)Math.Sqrt(2);
+                    speedY -= Speed / (float)Math.Sqrt(2);
+                }
+                else
+                    speedY -= Speed;
+            }
+            if (MovesDown)
+            {
+                if (speedX != 0)
+                {
+                    speedX = speedX / (float)Math.Sqrt(2);
+                    speedY += Speed / (float)Math.Sqrt(2);
+                }
+                else
+                    speedY += Speed;
+            }
+
+            float x = Location.X + speedX, y = Location.Y + speedY;
+
+            if (x < 0)
+                x = 0;
+            if (x > Form1.Instance.pictureBox1.Width - Size)
+                x = Form1.Instance.pictureBox1.Width - Size;
+            if (y < 0)
+                y = 0;
+            if (y > Form1.Instance.pictureBox1.Height - Size)
+                y = Form1.Instance.pictureBox1.Height - Size;
+
+            Location = new PointF(x, y);
         }
     }
 }

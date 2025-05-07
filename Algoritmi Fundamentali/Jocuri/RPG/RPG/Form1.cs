@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RPG
@@ -28,7 +21,17 @@ namespace RPG
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            Engine.player.Move(e.KeyCode);
+            Engine.player.ChangeMovement(e.KeyCode, true);
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            Engine.player.ChangeMovement(e.KeyCode, false);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Engine.player.Move();
             Engine.Draw();
         }
     }
