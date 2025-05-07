@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace RPG
@@ -16,12 +18,15 @@ namespace RPG
         public bool MovesUp { get; set; }
         public bool MovesDown { get; set; }
 
+        public Stack<Ingredient> Burger { get; set; }
+
         public Character(PointF location, int size, string pathToImage, int speed)
         {
             Location = location;
             Size = size;
             Image = Image.FromFile(pathToImage);
             Speed = speed;
+            Burger = new Stack<Ingredient>();
         }
 
         public void ChangeMovement(Keys keyPressed, bool value)
@@ -41,6 +46,11 @@ namespace RPG
             if (keyPressed == Keys.S || keyPressed == Keys.Down)
             {
                 MovesDown = value;
+            }
+            if ((keyPressed == Keys.Space || keyPressed == Keys.Enter) && !value)
+            {
+                Burger.Pop();
+                DrawBurger();
             }
         }
 
@@ -85,6 +95,36 @@ namespace RPG
                 y = Form1.Instance.pictureBox1.Height - Size;
 
             Location = new PointF(x, y);
+            CheckCollisions();
+        }
+
+        public void CheckCollisions()
+        {
+            foreach (var ingredient in new List<Ingredient>(Engine.ingredients))
+            {
+                if (new RectangleF(Location, new SizeF(Size, Size)).IntersectsWith(
+                        new RectangleF(ingredient.Location, new Size(ingredient.Width, ingredient.Height))
+                    ))
+                {
+                    Burger.Push(ingredient);
+                    DrawBurger();
+                    Engine.ingredients.Remove(ingredient);
+                }
+            }
+        }
+
+        public void DrawBurger()
+        {
+            var bitmap = new Bitmap(Form1.Instance.pictureBox2.Width, Form1.Instance.pictureBox2.Height);
+            var graphics = Graphics.FromImage(bitmap);
+
+            var burger = Burger.Reverse().ToArray();
+            for (int i = 0; i < burger.Length; i++)
+            {
+                graphics.DrawImage(burger[i].Image, 0, (10 - i - 1) * 50, 200, 50);
+            }
+
+            Form1.Instance.pictureBox2.Image = bitmap;
         }
     }
 }

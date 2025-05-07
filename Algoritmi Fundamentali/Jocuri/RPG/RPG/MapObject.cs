@@ -10,33 +10,30 @@ namespace RPG
         public Image Image { get; set; }
         public Image TransparentImage { get; set; }
 
-        public Point BlockLocation { get; set; }
-        public int BlockWidth { get; set; }
-        public int BlockHeight { get; set; }
-
-        public MapObject(Point location, int width, int height, string pathToImage,
-            string pathToTransparentImage, Point blockLocation, int blockWidth, int blockHeight)
+        public MapObject(Point location, int width, int height, string pathToImage, string pathToTransparentImage)
         {
             Location = location;
             Width = width;
             Height = height;
             Image = Image.FromFile(pathToImage);
             TransparentImage = Image.FromFile(pathToTransparentImage);
-
-            BlockLocation = blockLocation;
-            BlockWidth = blockWidth;
-            BlockHeight = blockHeight;
         }
 
         public void Draw(Graphics graphics)
         {
-            if (Engine.HasCharacterBehind(this))
+            if (HasCharacterBehind())
                 graphics.DrawImage(TransparentImage, Location.X, Location.Y, Width, Height);
             else
                 graphics.DrawImage(Image, Location.X, Location.Y, Width, Height);
+        }
 
-            graphics.FillRectangle(new SolidBrush(Color.Red), BlockLocation.X,
-                BlockLocation.Y, BlockWidth, BlockHeight);
+        public bool HasCharacterBehind()
+        {
+            if (new RectangleF(Location, new Size(Width, Height)).IntersectsWith(
+                    new RectangleF(Engine.player.Location, new SizeF(Engine.player.Size, Engine.player.Size))
+                ))
+                return true;
+            return false;
         }
     }
 }

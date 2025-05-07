@@ -6,6 +6,7 @@ namespace RPG
     public partial class Form1 : Form
     {
         public static Form1 Instance;
+        public int ticks;
 
         public Form1()
         {
@@ -33,6 +34,13 @@ namespace RPG
         {
             Engine.player.Move();
             Engine.Draw();
+
+            ticks++;
+            if (ticks == 150)
+            {
+                Engine.AddRandomIngredient();
+                ticks = 0;
+            }
         }
     }
 }
