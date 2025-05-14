@@ -49,8 +49,12 @@ namespace RPG
             }
             if ((keyPressed == Keys.Space || keyPressed == Keys.Enter) && !value)
             {
-                Burger.Pop();
-                DrawBurger();
+                if (Burger.Any())
+                {
+                    Burger.Pop();
+                    Engine.ServeBurger();
+                    DrawBurger();
+                }
             }
         }
 
@@ -107,8 +111,9 @@ namespace RPG
                     ))
                 {
                     Burger.Push(ingredient);
-                    DrawBurger();
                     Engine.ingredients.Remove(ingredient);
+                    Engine.ServeBurger();
+                    DrawBurger();
                 }
             }
         }

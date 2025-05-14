@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace RPG
 {
@@ -11,6 +12,7 @@ namespace RPG
         public static Character player;
         public static MapObject pineapple;
         public static List<Ingredient> ingredients;
+        public static int score = 0;
 
         public static Random random;
         public static Color backgroundColor = Color.CornflowerBlue;
@@ -26,6 +28,7 @@ namespace RPG
             "pickles",
             "top_bun",
         };
+        public static List<string> burgerRequest;
 
         public static void Initialize()
         {
@@ -34,6 +37,12 @@ namespace RPG
                 "../../Images/pineapple_transparent.png");
             ingredients = new List<Ingredient>();
             random = new Random();
+            CreateNewBurgerRequest();
+
+            for (int i = 0; i < burgerRequest.Count; i++)
+            {
+                player.Burger.Push(new Ingredient(new Point(), 0, 0, burgerRequest[i]));
+            }
         }
 
         public static void Draw()
@@ -62,7 +71,65 @@ namespace RPG
             int x = random.Next(Form1.Instance.pictureBox1.Width - 80);
             int y = random.Next(Form1.Instance.pictureBox1.Height - 20);
 
-            ingredients.Add(new Ingredient(new Point(x, y), 80, 20, $"../../Images/{ingredientNames[index]}.png"));
+            ingredients.Add(new Ingredient(new Point(x, y), 80, 20, ingredientNames[index]));
+        }
+
+        public static void CreateNewBurgerRequest()
+        {
+            burgerRequest = new List<string>();
+            burgerRequest.Add(ingredientNames[0]);
+
+            int nrOfIngredients = random.Next(3, 8);
+            for (int i = 0; i < nrOfIngredients; i++)
+            {
+                int index = 1;
+                do
+                {
+                    index = random.Next(1, 8);
+                } while (burgerRequest.Contains(ingredientNames[index]));
+
+                burgerRequest.Add(ingredientNames[index]);
+            }
+            burgerRequest.Add(ingredientNames.Last());
+
+            var bitmap = new Bitmap(Form1.Instance.pictureBox3.Width, Form1.Instance.pictureBox3.Height);
+            var graphics = Graphics.FromImage(bitmap);
+
+            for (int i = 0; i < nrOfIngredients + 2; i++)
+            {
+                var ingredient = new Ingredient(new Point(), 0, 0, burgerRequest[i]);
+                graphics.DrawImage(ingredient.Image, 0, (10 - i - 1) * 50, 200, 50);
+            }
+            Form1.Instance.pictureBox3.Image = bitmap;
+        }
+
+        public static bool CheckIfBurgersAreTheSame()
+        {
+            string[] currentBurger = player.Burger.Select(x => x.Name).Reverse().ToArray();
+            if (currentBurger.Length != burgerRequest.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < currentBurger.Length; i++)
+            {
+                if (currentBurger[i] != burgerRequest[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static void ServeBurger()
+        {
+            if (CheckIfBurgersAreTheSame())
+            {
+                CreateNewBurgerRequest();
+                player.Burger.Clear();
+                score += 100;
+                Form1.Instance.label3.Text = $"Score: {score}";
+            }
         }
     }
 }
