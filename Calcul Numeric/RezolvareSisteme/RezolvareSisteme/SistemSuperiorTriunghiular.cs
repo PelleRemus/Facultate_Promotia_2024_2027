@@ -1,11 +1,13 @@
 ﻿namespace RezolvareSisteme
 {
-    // Matricea A a sistemului arata astfel:
-    // a11 a12 a13 ... a1n
-    // 0   a22 a23 ... a2n
-    // 0   0   a33 ... a3n
-    // ...
-    // 0   0   0   ... ann
+    /// <summary>
+    /// Matricea A a sistemului arata astfel: <br/>
+    /// a11 a12 a13 ... a1n <br/>
+    /// 0   a22 a23 ... a2n <br/>
+    /// 0   0   a33 ... a3n <br/>
+    /// ... ... ... ... ... <br/>
+    /// 0   0   0   ... ann <br/>
+    /// </summary>
     public class SistemSuperiorTriunghiular : Sistem
     {
         public SistemSuperiorTriunghiular(int n, decimal[,] A, decimal[] b)
@@ -14,6 +16,7 @@
 
         public static void Exemple()
         {
+            int n = 3;
             var A = new decimal[,]
             {
                 { 1, 2, 3 },
@@ -22,7 +25,7 @@
             };
             var b = new decimal[] { 5, 2, 3 };
 
-            var sistem = new SistemSuperiorTriunghiular(3, A, b);
+            var sistem = new SistemSuperiorTriunghiular(n, A, b);
             sistem.Rezolvare();
             Console.WriteLine(sistem);
         }
@@ -39,17 +42,6 @@
                 }
                 x[k] = (b[k] - suma) / A[k, k];
             }
-        }
-
-        public override string ToString()
-        {
-            string s = "X = { ";
-            for (int i = 0; i < n; i++)
-            {
-                s += $"{x[i]}, ";
-            }
-            s = s.Substring(0, s.Length - 2) + " }";
-            return s;
         }
     }
 }
