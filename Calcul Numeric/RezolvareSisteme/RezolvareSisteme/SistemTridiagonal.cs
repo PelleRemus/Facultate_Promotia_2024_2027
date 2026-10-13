@@ -21,6 +21,7 @@
             decimal[] b = { 0, -0.125m, -0.125m, -0.125m, -0.125m, -0.25m };
             decimal[] c = { -0.25m, -0.125m, -0.125m, -0.125m, -0.125m, 0 };
             decimal[] d = { -10.5m, 7.25m, 8.6875m, -12.75m, 9.8125m, -6.5m };
+            // Matricea A nu este folosita pentru calcule, poate ramane goala
             decimal[,] A = new decimal[n, n];
 
             var sistem = new SistemTridiagonal(n, a, b, c, d, A);
