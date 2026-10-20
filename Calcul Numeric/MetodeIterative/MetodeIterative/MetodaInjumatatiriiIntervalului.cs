@@ -9,7 +9,7 @@ public class MetodaInjumatatiriiIntervalului : MetodaNumerica
 
     public static void Exemple()
     {
-        Func<decimal, decimal> f = x => x * x * x - 3 * x + 1;
+        Func<decimal, decimal> f = x => x * x * x - x + 1;
         decimal a = 0;
         decimal b = 1;
         decimal eps = 0.0001m;
