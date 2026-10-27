@@ -1,1 +1,3 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using MetodeIterative;
+
+MetodaInjumatatiriiIntervalului.Exemple();
