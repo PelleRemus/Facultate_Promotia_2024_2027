@@ -1,3 +1,3 @@
 ﻿using MetodeIterative;
 
-MetodaInjumatatiriiIntervalului.Exemple();
+MetodaAproximatiilorSuccesive.Exemple();
