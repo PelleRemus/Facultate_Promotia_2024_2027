@@ -6,8 +6,8 @@ public class MetodaAproximatiilorSuccesive : MetodaNumerica
     public Func<decimal, decimal> fi;
 
     public MetodaAproximatiilorSuccesive(decimal a, decimal b, decimal epsilon,
-        Func<decimal, decimal> f, Func<decimal, decimal> fi, decimal x0)
-        : base(f, a, b, epsilon)
+        Func<decimal, decimal> fi, decimal x0)
+        : base(null, a, b, epsilon)
     {
         this.fi = fi;
         this.x0 = x0;
@@ -18,18 +18,18 @@ public class MetodaAproximatiilorSuccesive : MetodaNumerica
     {
         decimal a = 1, b = 2, x0 = 1, eps = 1e-4M;
         Func<decimal, decimal> fi = x => (decimal)Math.Pow((double)x + 1, 0.25);
-        Afisare(a, b, eps, null, fi, x0);
+        Afisare(a, b, eps, fi, x0);
 
         fi = x => (decimal)Math.Pow((double)x + 1, 1.0 / 3);
-        Afisare(a, b, eps, null, fi, x0);
+        Afisare(a, b, eps, fi, x0);
 
         a = 0; b = 0.5M; x0 = 0.5M;
         fi = x => 0.2M * (x * x * x * x * x + 1);
-        Afisare(a, b, eps, null, fi, x0);
+        Afisare(a, b, eps, fi, x0);
 
         a = (decimal)Math.PI / 4; b = (decimal)Math.PI / 2; x0 = 1.1781M;
         fi = x => (decimal)Math.Sin((double)x) + 0.25M;
-        Afisare(a, b, eps, null, fi, x0);
+        Afisare(a, b, eps, fi, x0);
     }
 
     public override void Rezolvare()
@@ -45,9 +45,9 @@ public class MetodaAproximatiilorSuccesive : MetodaNumerica
     }
 
     private static void Afisare(decimal a, decimal b, decimal epsilon,
-        Func<decimal, decimal> f, Func<decimal, decimal> fi, decimal x0)
+        Func<decimal, decimal> fi, decimal x0)
     {
-        var metoda = new MetodaAproximatiilorSuccesive(a, b, epsilon, null, fi, x0);
+        var metoda = new MetodaAproximatiilorSuccesive(a, b, epsilon, fi, x0);
         metoda.Rezolvare();
         Console.WriteLine($"Iteratii: {metoda.Iteratii}, x*: {metoda.x[metoda.Iteratii]}");
     }

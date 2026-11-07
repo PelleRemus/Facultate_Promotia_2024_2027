@@ -1,3 +1,3 @@
 ﻿using MetodeIterative;
 
-MetodaAproximatiilorSuccesive.Exemple();
+MetodaLuiHeron.Exemple();
