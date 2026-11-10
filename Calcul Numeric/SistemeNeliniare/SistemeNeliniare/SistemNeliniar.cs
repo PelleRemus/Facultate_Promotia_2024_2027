@@ -6,12 +6,13 @@ public abstract class SistemNeliniar
     public decimal x0, y0, z0;
     public decimal xn, yn, zn;
     public decimal epsilon;
-    public Func<decimal, decimal[]> F;
-    public Func<decimal, decimal[]> G;
-    public Func<decimal, decimal[]> H;
+    // Pentru apelul fct F: F([x, y])
+    public Func<decimal[], decimal> F;
+    public Func<decimal[], decimal> G;
+    public Func<decimal[], decimal> H;
 
     public SistemNeliniar(decimal x0, decimal y0, decimal epsilon,
-        Func<decimal, decimal[]> F, Func<decimal, decimal[]> G)
+        Func<decimal[], decimal> F, Func<decimal[], decimal> G)
     {
         this.x0 = x0;
         this.y0 = y0;
