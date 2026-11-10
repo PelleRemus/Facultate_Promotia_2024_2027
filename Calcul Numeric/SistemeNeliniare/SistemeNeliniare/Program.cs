@@ -1,0 +1,3 @@
+﻿using SistemeNeliniare;
+
+MetodaAproximatiilorSuccesive.Exemple();
