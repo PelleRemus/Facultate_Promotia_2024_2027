@@ -8,8 +8,8 @@ public abstract class SistemNeliniar
     public decimal epsilon;
     // Pentru apelul functilor, Ex: F([x, y]); G([x, y, z]);
     // Motivul pentru vector de decimal ca si input este lungimea variabila de parametri (2 sau 3 in cazul nostru)
-    // Pentru a-l defini pe F, vom spune de exemplu x => <...>, iar pentru a-l folosi pe y in interiorul functiei f,
-    // vom scrie x[1] in schimb. Indicele 0 il reprezinta pe x, iar indicele 2 il reprezinta pe z
+    // Pentru a-l defini pe F, vom spune de exemplu (decimal[] X) => <...>, iar pentru a-l folosi pe y in interiorul
+    // functiei f, vom scrie X[1] in schimb. Indicele 0 il reprezinta pe x, iar indicele 2 il reprezinta pe z
     public Func<decimal[], decimal> F;
     public Func<decimal[], decimal> G;
     public Func<decimal[], decimal> H;
